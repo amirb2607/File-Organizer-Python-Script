@@ -18,7 +18,7 @@ class Handler(PatternMatchingEventHandler):
     # File Name is determined by the 2nd argument passed.
     logging.basicConfig(filename = sys.argv[2], filemode= 'a', level=logging.INFO,
         format = '%(asctime)s | %(process)d | %(message)s',
-                         datefmt='%m-%d-%Y %H:%M:%S')
+                         datefmt='%m-%d-%Y %I:%M:%S %p')
     
     def __init__(self) -> None:
         PatternMatchingEventHandler.__init__(self, patterns=["*"], 
@@ -51,6 +51,8 @@ class Handler(PatternMatchingEventHandler):
                 destination_dir = r"D:\Downloads\Videos"
             if destination_dir:
                 new_path = os.path.join(destination_dir, file_name)
+                #To minimize the risk of corrupted files, the script will sleep for 25 seconds before it moves the file.
+                time.sleep(25)
                 shutil.move(event.src_path, new_path)
                 logging.info(f"Moved '{file_name}' to '{destination_dir}'")
 
